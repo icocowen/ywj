@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>语问卷 · 登录</title>
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}" type="text/css">
+    <style>
+        .card-shadow-login{
+            box-shadow: 0px 1px 11px 6px #5555557a;
+            /*background-image: linear-gradient( 135deg, #C2FFD8 10%, #465EFB 100%);*/
+            /*background-image: linear-gradient( 135deg, #3B2667 10%, #BC78EC 100%);*/
+        }
+
+        body{
+            background-image: linear-gradient( 135deg, #C2FFD8 10%, #465EFB 100%);
+        }
+
+        /*#password:focus, body{*/
+            /*background-image: linear-gradient( 135deg, #3B2667 10%, #BC78EC 100%);*/
+        /*}*/
+
+
+    </style>
+    <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+</head>
+<body style="background-color: #adbdce; height: 100%; display: flex; justify-content: center; align-items: center;">
+    <!--<div class="container">-->
+        <!--<div class="row justify-content-center mt-5 pt-5">-->
+            <!--<div class="col-sm-3">-->
+                <div class="card card-shadow-login" style="width: 1%; min-width: 260px; background-image: linear-gradient(#47497b,#18192d);">
+                    <img class="card-img-top " id="show-avatar" th:src="@{images/avatar.jpg}" alt="头像" style="height: 180px;">
+
+                    <div class="card-body" style="color: white;">
+
+                        <div class="tab-content">
+                            <div class="tab-pane fade "  th:classappend="${register != null ? '': 'show active'}"  id="login" role="tabpanel" aria-labelledby="login-tab">
+                                
+                                <form class="form-signin" method="post" th:action="@{/login}">
+                                    <h4 class="form-signin-heading text-white">登录</h4>
+                                    <p>
+                                        <label for="username" class="sr-only">邮箱</label>
+                                        <input type="email" id="username" name="username" class="form-control form-control-sm" placeholder="邮箱" required autofocus>
+                                    </p>
+                                    <p>
+                                        <label for="password" class="sr-only">密码</label>
+                                        <input type="password" id="password" name="password" class="form-control form-control-sm" placeholder="密码" required>
+                                    </p>
+                                    <button class="btn btn-outline-light btn-block" type="submit">登录</button>
+                                    <span class="text-danger text-center " style="font-size: .8rem;"  th:if="${param.error}" >登录失败</span>
+                                    <span class="text-success text-center " style="font-size: .8rem;"  th:if="${param.logout}" >退出登录成功</span>
+                                </form>
+
+                            </div>
+
+                            <div class="tab-pane fade " th:classappend="${register != null ? 'show active': ''}"  id="register" role="tabpanel" aria-labelledby="register-tab">
+                                <form class="form-register" method="post" th:action="@{/register}">
+                                    <h4 class="text-white">注册</h4>
+                                    <p>
+                                        <label for="regiUsername" class="sr-only">邮箱</label>
+                                        <input type="email" id="regiUsername" name="email" class="form-control form-control-sm" placeholder="邮箱" required autofocus>
+                                    </p>
+                                    <p>
+                                        <label for="regiPassword" class="sr-only">密码</label>
+                                        <input type="password" id="regiPassword" name="password" class="form-control form-control-sm" placeholder="密码" required>
+                                    </p>
+                                    <p>
+                                        <label for="confPassword" class="sr-only">确认密码</label>
+                                        <input type="password" id="confPassword" name="confirmPassword" class="form-control form-control-sm" placeholder="确认密码" required>
+                                    </p>
+
+                                    <button class="btn btn-outline-light btn-block" type="submit">确认注册</button>
+                                    <span class="text-danger text-center " style="font-size: .8rem;" th:if="${register eq 'fail'}">注册失败</span>
+                                    <span class="text-success text-center " style="font-size: .8rem;" th:if="${register eq 'success'}">注册成功</span>
+
+                                </form>  
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body text-right" style="font-size: .8rem;">
+                        <ul class="nav justify-content-end" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${register != null ? '': 'active'}" id="login-tab" data-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">登录</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"  th:classappend="${register == null ? '': 'active'}" id="register-tab" data-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">注册</a>
+                            </li>
+                        </ul>
+                    </div>
+                   
+                  </div>
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <script th:src="@{js/jquery-3.3.1.min.js}" ></script>
+    <script th:src="@{js/popper.min.js}" ></script>
+    <script th:src="@{js/bootstrap.min.js}" ></script>
+    <script>
+        $('#password').focus(function () {
+            $("body").css({'background-image': 'linear-gradient( 135deg, #3B2667 10%, #BC78EC 100%)'}).animate({
+                opacity: 'show'
+            }, 500);
+        });
+
+        $('#password').blur(function () {
+            $("body").css({'background-image': 'linear-gradient( 135deg, #C2FFD8 10%, #465EFB 100%)'}).animate({
+                opacity: 'show'
+            }, 500);
+        });
+
+
+        $('#username').on('blur', function(e) {
+                var va = e.target.value.trim();
+                if(!va) return;
+                var pat=new RegExp(".*@.*");
+                if (!pat.test(va))  return;
+                http('/showAvatar', {"email" : va});
+        });
+
+        function http( url ,data) {
+            $.ajax({
+                type: "get",
+                url: url,
+                data:  data,
+                dataType: "json",
+                success: function(e){
+                   if (e.status === 'success') {
+                       $('#show-avatar').attr({"src":e.src});
+                   }
+                },
+                error: function () {
+                    console.log("error")
+                }
+            });
+
+        }
+    </script>
+
+</body>
+</html>

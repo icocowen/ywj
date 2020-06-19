@@ -1,0 +1,90 @@
+.nav-padding{
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+.txt-black{
+    color: black !important;
+}
+.txt-black-earse-underline:hover {
+    text-decoration: none;
+}
+.txt-black-earse-underline:focus {
+    text-decoration: none;
+}
+.item-icon{
+    background-repeat: no-repeat;
+    background-position: 12px 12px;
+    padding-left: 38px !important;
+    background-size: 24%;
+}
+
+
+.radio-icon {
+    background-image: url("../images/radio.png");
+}
+.radio-icon:hover {
+    background-image: url("../images/radio-hover.png");
+}
+.checkbox-icon{
+    background-image: url("../images/checkbox.png");
+}
+.checkbox-icon:hover{
+    background-image: url("../images/checkbox-hover.png");
+}
+
+.fill-text-icon{
+    background-image: url("../images/fill-txt.png");
+}
+.fill-text-icon:hover{
+    background-image: url("../images/fill-txt-hover.png");
+}
+
+.fill-text-item {
+    background-repeat: no-repeat;
+    padding-left: 37px !important;
+    background-position: 10px 13px;
+    background-size: 11%;
+}
+
+
+.item {
+    cursor: pointer;
+}
+.item:hover{
+    background-color: #ddedff; 
+}
+
+.item:hover .radio-icon{
+    background-image: url("../images/radio-hover.png");
+}
+
+.item:hover .checkbox-icon{
+    background-image: url("../images/checkbox-hover.png");
+}
+.preview-icon{
+    width: 1.5rem;
+    height: 1.5rem;
+}
+.radio-title{
+    height: 1.5rem;
+    width: 100%;
+}
+#title-warp{
+    height: 100%;
+    width: 100%;
+}
+.sub-icon {
+    width: 20px;
+    height: 18px;
+    cursor: pointer;
+    background-image: url(../images/sub.png);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+.sub-icon:hover{
+    background-image: url(../images/sub-hover.png);
+}
+.option-label{
+    max-width: 327px;
+}

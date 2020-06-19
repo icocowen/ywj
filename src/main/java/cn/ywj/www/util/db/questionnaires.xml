@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionnaires xmlns="http://www.ywj.cn/questionnaires" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ywj.cn/questionnaires  questionnaires.xsd">
+	<questionnaire question_id="21331" owner_id="2003" status="pause">
+		<!-- status 1 发布  2 暂停 3 草稿 4回收 -->
+		<title>端午节大调查</title>
+		<create_date>1560047957</create_date>
+		<status_change_time>1560047980</status_change_time>
+	</questionnaire> 
+</questionnaires>

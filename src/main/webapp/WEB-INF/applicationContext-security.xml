@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <security:http auto-config="true" use-expressions="false">
+        <!--intercept-url 表示拦截页面
+          /*  表示的是该目录下的资源，只包括本级目录不包括下级目录
+          /** 表示的是该目录以及该目录下所有级别子目录的资源
+        配置拦截的请求地址，任何请求地址都必须有ROLE_USER的权限 -->
+        <security:intercept-url pattern="/**" access="ROLE_USER"/>
+    </security:http>
+
+    <!-- 配置认证信息 -->
+    <security:authentication-manager>
+        <security:authentication-provider>
+            <security:user-service>
+                <!--noop是一个标识，表示密码不能明文，密码往往会有很多其他方式，这里默认编码就是不编码-->
+                <security:user name="admin" password="{noop}admin" authorities="ROLE_USER"/>
+            </security:user-service>
+        </security:authentication-provider>
+    </security:authentication-manager>
+
+</beans>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html  xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"  type="text/css">
+      <link rel="stylesheet" th:href="@{/css/manage.css}" type="text/css">
+      <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+    <title th:text="'语问卷 · '+${user.getEmail()}"></title>
+    <style>
+      #avatar-warp:hover::before{
+        content: '更换头像';
+        display: block;
+        width: 286px;
+        line-height: 180px;
+        background-color: #6b6969b0;
+        position: absolute;
+        top: 0;
+        left: 0px;
+        color: white;
+        font-size: 2rem;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body style="background-color:#e9ecef;">
+    <div class="nav-bg">
+        <div class="container">
+          <nav class="navbar navbar-expand-md navbar-light">
+            <a class="navbar-brand erase-padding " href="javascript:history.go(-1)">
+              <img class="brand-icon" th:src="@{/images/back.png}">
+            </a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link erase-padding" th:href="@{/user/}+${uid}"><img class="brand-icon" th:src="@{/images/user.png}"></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link erase-padding" href="#">
+                    <img class="brand-icon" th:src="@{/images/msg.png}"><span class="badge  msg-num">0</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link erase-padding" th:href="@{/logout}"><img class="brand-icon" th:src="@{/images/exit.png}"></a>
+                </li>
+              </ul>
+             
+            </div>
+            
+          </nav>
+        </div>
+      </div>
+      <div class="container mt-md-1 " >
+        <div class="row justify-content-center">
+          <div class="col-md-3 " style="position: relative;">
+            
+            
+              <div class="card mb-md-5 mt-md-3" id="user-card" style="width: 18rem;     box-shadow: 0 0 8px 4px #0e0e0e38;">
+                  <div class="card-img-top" id="avatar-warp" data-target="#avatar-modal" data-toggle="modal" style="width: 286px; height: 180px; overflow: hidden;">
+                       <img  id="avatar"  th:src="${user.getAvatar()}" alt="头像" style="height: 180px; width: 100%">
+                  </div>
+                  <div class="card-body user-id">
+                    <h5 class="card-title" th:text="${user.getEmail()}"></h5>
+                    <p class="card-text " data-toggle="popover"  data-content="绑定成功" id="motto" style="min-height: 30px;" th:text="${user.getMotto()}"></p>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item" th:text="'账号ID: '+${user.getUserId()}"> </li>
+                    <li class="list-group-item" th:text="'账户类型:'+${user.getType() eq '2' ? '普通用户' : 'VIP用户'}"></li>
+                      <li class="list-group-item" ><span th:text="'邮箱地址:'+${user.getEmail()}"></span><span th:if="${#strings.isEmpty(user.getEmail())}" id="email">未绑定</span><button th:if="${#strings.isEmpty(user.getEmail())}" type="button" class="btn ml-auto btn-sm btn-link bind-email">绑定</button></li>
+                    <li class="list-group-item"  data-toggle="popover"  data-content="绑定成功" ><span th:text="'手机号: ' + ${user.getPhoneNum()}"></span><span th:if="${ #strings.isEmpty(user.getPhoneNum())}" id="phnum">未绑定</span>
+                        <button th:if="${#strings.isEmpty(user.getPhoneNum())}" type="button" class="btn ml-auto btn-sm btn-link bind-phnum">绑定</button></li>
+                  </ul>
+                  <div class="card-body text-center">
+                    <a href="javascript:void(0);" id="alter-pwd" class="card-link" data-target="#alter-dowm" data-toggle="collapse">修改密码</a>
+                  </div>
+                  <div class="collapse " id="alter-dowm">
+                        <div class="card card-body">
+                            <p>
+                              <input type="password" name="old-pwd" id="old-pwd" class="form-control form-control-sm" placeholder="旧密码">
+                            </p>
+                            <p>
+                              <input type="password" name="new-pwd" id="new-pwd" class="form-control form-control-sm" placeholder="新密码">
+                            </p>
+                            <p>
+                              <input type="password" name="confirm-pwd" id="confirm-pwd" class="form-control form-control-sm" placeholder="确认密码">
+                            </p>
+                            <p class="d-flex justify-content-center">
+                              <button type="button" class="btn btn-primary" id="confirm-alter">确认修改</button>
+                            </p>
+                        </div>
+
+                  </div>
+                </div>
+          </div>
+        </div>
+      </div>
+
+
+  
+
+      <div id="avatar-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              修改头像
+            </div>
+              <form  enctype="multipart/form-data">
+                    <div class="modal-body">
+                      <p>
+                          <div class="form-group" id="form-area">
+                              <label for="select-avatar">选择头像</label>
+                              <input type="file" class="form-control-file" name="newAvatar" id="select-avatar">
+                            </div>
+                      </p>
+                        <div class="progress" style="display: none">
+                            <div class="progress-bar progress-plan progress-bar-striped progress-bar-animated" role="progressbar"  aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" id="start-upload-avatar">上传头像</button>
+                    </div>
+
+              </form>
+          </div>
+        </div>
+      </div>
+
+
+    <script th:src="@{/js/jquery-3.3.1.min.js}" ></script>
+    <script th:src="@{/js/popper.min.js}" ></script>
+    <script th:src="@{/js/bootstrap.min.js}" ></script>
+    <script th:inline="javascript">
+        var base = [[${user.getMotto()}]];
+    </script>
+    <script th:src="@{/js/user.js}"></script>
+
+  </body>
+</html>

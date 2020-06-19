@@ -1,0 +1,65 @@
+<!doctype html>
+<html  xmlns:th="http://www.thymeleaf.org">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"  type="text/css">
+    <link rel="stylesheet" th:href="@{css/manage.css}" type="text/css">
+      <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+    <title>语问卷 · 增加问卷</title>
+  </head>
+  <body style="background-color: #e9ecef;">
+        <div class="nav-bg">
+                <div class="container">
+                  <nav class="navbar navbar-expand-md navbar-light">
+                    <a class="navbar-brand erase-padding " href="javascript:history.go(-1)">
+                      <img class="brand-icon" th:src="@{images/back.png}" >
+                    </a>
+                    <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                      </button>
+                  
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                          <a class="nav-link erase-padding" th:href="@{/user/}+${uid}">
+                              <img class="brand-icon" th:src="@{images/user.png}">
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link erase-padding" href="#">
+                            <img class="brand-icon" th:src="@{images/msg.png}"><span class="badge  msg-num">9</span>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link erase-padding" th:href="@{/logout}"><img class="brand-icon" th:src="@{images/exit.png}"></a>
+                        </li>
+                      </ul>
+                     
+                    </div>
+                    
+                  </nav>
+                </div>
+              </div>
+              
+            <div class="jumbotron text-center">
+                <div class="container">
+                        <h1 class="display-4">创建问卷</h1>
+                         <hr class="my-4">
+                    <form th:action="@{addquestionnire}" th:method="POST">
+                        <p><input class="form-control form-control-lg" type="text" name="q-name" style="max-width: 40rem; margin: 0 auto;" placeholder="问卷名称"></p>
+                        <p class="lead">
+                            <button class="btn btn-primary btn-lg" type="submit">立即创建</button>
+                        </p>
+                    </form>
+                </div>   
+            </div>
+
+
+    <script th:src="@{js/jquery-3.3.1.min.js}" ></script>
+    <script th:src="@{js/popper.min.js}" ></script>
+    <script th:src="@{js/bootstrap.min.js}" ></script>
+  </body>
+</html>

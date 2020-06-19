@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.ywj.cn/questionnaires" xmlns="http://www.ywj.cn/questionnaires">
+	<xs:element name="questionnaires" type="questionnaires_type" />
+	<xs:element name="questionnaire" type="questionnaire_type" />
+	
+	<xs:element name="title" type="xs:string"/>
+	<xs:element name="create_date" type="xs:string" />
+	
+	<xs:element name="status_change_time" type="xs:string"/>
+	
+	<xs:complexType name="questionnaire_type">
+		<xs:all maxOccurs="1" minOccurs="1">
+			<xs:element ref="title" />
+			<xs:element ref="create_date" />
+			<xs:element ref="status_change_time" />
+		</xs:all>
+		<xs:attribute name="question_id" type="xs:string" />
+		<xs:attribute name="owner_id" type="xs:string"/>
+		<xs:attribute name="status" type="xs:string"/>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="questionnaires_type">
+	
+		<xs:sequence maxOccurs="unbounded" >
+			<xs:element ref="questionnaire" />
+		</xs:sequence>
+	</xs:complexType>
+		
+	
+</xs:schema>

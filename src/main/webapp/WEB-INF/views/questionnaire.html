@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="ch-CN" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"  type="text/css">
+    <link rel="stylesheet" th:href="@{/css/manage.css}" type="text/css">
+    <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+    <title th:text="'语问卷 · '+${data['q'].getTitle()}"></title>
+    <style>
+        @media (max-width: 576px){
+            .title-index {
+                 width: 9% !important;
+            }
+            .title-txt{
+                width: 90% !important;
+            }
+            .sub-btn{
+                width: 74px !important;
+                padding: 0 !important;
+            }
+        }
+                        
+    </style>
+</head>
+
+<body style="background-color: #e9ecef;">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8" style="background-color: white; border-radius: 5px;">
+            <div class="row">
+                <div class="col-md-12 pb-5" style="background-color: white;     border-radius: 5px; ">
+
+                    <div class="row justify-content-center" id="question-area-title">
+                        <div class="col-md-8">
+                            <div class="jumbotron text-center" style="background-color: white; padding-bottom: 10px;">
+                                <h3 class="display-6 " id="questionnaire-title">
+                                    <div class="container" id="title-warp-question"
+                                        style="padding-left: 0; padding-right:0;" th:text="${data['q'].getTitle()}">
+
+                                    </div>
+                                </h3>
+                                <hr class="my-1">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- item -->
+
+                    <div class="row">
+                        <div class="col-md-12" id="question-area">
+
+                        <div  th:each="model, status : ${data['qm'].getQuestions()}" >
+                            <div th:switch="${model.getType().toString()}">
+
+                            <div th:case="'text'" class="row justify-content-center mb-4 question-item qi">
+                                <div class="col-md-10 question-item-area">
+                                    <div class="row no-gutters h4 question-item-header">
+                                        <div class="col-md-1 title-index">&nbsp;<span class="q-index" th:text="${status.count}"></span>.</div>
+
+                                        <div class="col-md-10 title-txt">
+                                            <div class="container ques-title" style="padding-left: 0; padding-right:0;" th:text="${model.getValue()}">
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="row question-item-body pl-4">
+                                        <div class="col-md-10 ">
+                                            <textarea class="form-control" rows="1"> </textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- 单选题 -->
+                            <div th:case="'radio'" class="row justify-content-center mb-4 question-item qi">
+                                <div class="col-md-10 question-item-area">
+                                    <div class="row no-gutters h4 question-item-header">
+                                        <div class="col-md-1 title-index">&nbsp;<span class="q-index" th:text="${status.count}"></span>.</div>
+                                        <div class="col-md-10 title-txt">
+                                            <div class="container ques-title" style="padding-left: 0; padding-right:0;" th:text="${model.getValue()}">
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="row question-item-body pl-4">
+                                        <div class="col-md-10 option-area" th:each="item, iss : ${model.getItems()}">
+
+                                            <div class="row item-option">
+                                                <div class="col-md-12">
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" th:name="'question-radio-q'+${status.count}" class="custom-control-input"  th:id="'q'+${status.count}+'-'+${iss.count}">
+                                                        <input type="hidden" th:value="${item.getOption()}" class="option">
+                                                        <label class="custom-control-label option-label"
+                                                            style="width: 90%; height: 100%;" th:for="'q'+${status.count}+'-'+${iss.count}">
+                                                            <span class="option" th:text="${item.getValue()}"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 单选题 -->
+
+
+                            <!-- checkbox -->
+
+                            <div th:case="'checkbox'" class="row justify-content-center mb-4 question-item qi">
+                                <div class="col-md-10 question-item-area">
+                                    <div class="row no-gutters h4 question-item-header">
+                                        <div class="col-md-1 title-index">&nbsp;<span class="q-index" th:text="${status.count}"></span>.</div>
+                                        <div class="col-md-10 title-txt">
+                                            <div class="container ques-title" style="padding-left: 0; padding-right:0;" th:text="${model.getValue()}">
+                                                </div>
+                                        </div>
+                                    </div>
+                                    <div class="row question-item-body pl-4">
+                                        <div class="col-md-10 option-area" th:each="item, iss : ${model.getItems()}">
+
+                                            <div class="row item-option">
+                                                <div class="col-md-12">
+                                                    <div class="custom-control custom-checkbox">
+
+                                                        <input type="checkbox" th:name="'question-checkbox-q'+${status.count}" class="custom-control-input" th:id="'q'+${status.count}+'-'+${iss.count}">
+                                                        <input type="hidden" th:value="${item.getOption()}" class="option">
+                                                        <label class="custom-control-label option-label" style="width: 90%; height: 100%;" th:for="'q'+${status.count}+'-'+${iss.count}">
+                                                            <span class="option" th:text="${item.getValue()}"></span>
+                                                        </label>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- checkbox -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <!-- item -->
+
+                    <div class="row justify-content-center mt-5">
+                        <div class="col-sm-2 sub-btn">
+                                <button type="button" class="btn btn-primary btn-lg" id="submit">提交</button>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    
+    <div class="row mt-5 text-center pt-4 pb-4" style="background-color: #c7c7c7;  color: #031529;">
+        <div class="col-md-12">
+            语问卷 | 吴楚翊提供技术支持
+        </div>
+    </div>
+
+    <script th:src="@{/js/jquery-3.3.1.min.js}" ></script>
+    <script th:src="@{/js/popper.min.js}" ></script>
+    <script th:src="@{/js/bootstrap.min.js}" ></script>
+    <script th:inline="javascript">
+        var qid = [[${qid}]];
+    </script>
+    <script>
+
+        $('#submit').on('click', function () {
+            var data = encodeAnswer();
+            upload(JSON.stringify(data));
+        });
+
+
+        function encodeAnswer() {
+            var items = getitems();
+            var qitem = [];
+            for (var i = 0; i < items.length; i++) {
+                var it = $(items[i]);
+                qitem[i] = parseOption(it);
+            }
+
+            return qitem;
+        }
+        
+        function parseOption(item) {
+            var ops = [];
+            var txt = item.find('textarea');
+            if (txt.length != 0) {
+                return [txt.val().trim()];
+            }
+            var options = item.find(':checked');
+            for(var i = 0; i < options.length; i++) {
+                ops[i] = $(options[i]).next('input').val();
+            }
+            return ops;
+        }
+
+        function getitems() {
+            return $('.qi');
+        }
+
+
+        function upload(data) {
+            $.ajax({
+                type: 'POST',
+                url: '/reply/'+qid,
+                data:  data,
+                contentType: 'application/json',
+                success: function(m){
+                    $('#submit').attr({"disabled": "true"});
+                    alert(m);
+
+                },
+                error: function () {
+                    alert("提交答案失败！");
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ch-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"  type="text/css">
+    <link rel="stylesheet" th:href="@{css/manage.css}" type="text/css">
+    <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+    <title>语问卷 · 通知</title>
+  </head>
+  <body style="background-color:#e9ecef;">
+    <div class="nav-bg">
+        <div class="container">
+          <nav class="navbar navbar-expand-md navbar-light">
+            <a class="navbar-brand erase-padding " href="javascript:history.go(-1)">
+              <img class="brand-icon" th:src="@{images/back.png}">
+            </a>
+            <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+          
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                  <a class="nav-link erase-padding" href="#"><img class="brand-icon" th:src="@{images/user.png}"></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link erase-padding" href="#">
+                    <img class="brand-icon" th:src="@{images/msg.png}"><span class="badge  msg-num">0</span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link erase-padding" th:href="@{/logout}"><img class="brand-icon" th:src="@{images/exit.png}"></a>
+                </li>
+              </ul>
+             
+            </div>
+            
+          </nav>
+        </div>
+      </div>
+
+
+      <div class="container">
+          
+          <div class="row justify-content-center mt-md-4 bg-white" style="border-radius: 5px;" >
+              <div class="col-md-9">
+                <table class="table mt-md-2 text-center">
+
+
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">问题</th>
+                        <th scope="col">时间</th>
+                        <th scope="col">删除</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>问卷ID:xxx 发布成功</td>
+                        <td>2019年6月21日</td>
+                        <td><a href="#" class="btn btn-outline-secondary">删除</a></td>
+                      </tr>
+                      <tr>
+                        <td>问卷ID:xxx 暂停成功</td>
+                        <td>2019年6月21日</td>
+                        <td><a href="#" class="btn btn-outline-secondary">删除</a></td>
+                      </tr>
+                      <tr>
+                        <td>问卷ID:xxx 数据下载成功</td>
+                        <td>2019年6月21日</td>
+                        <td><a href="#" class="btn btn-outline-secondary">删除</a></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+              </div>
+          </div>
+      </div>
+   
+
+  </body>
+</html>

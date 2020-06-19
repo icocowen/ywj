@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="ch-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"  type="text/css">
+      <link rel="stylesheet" th:href="@{/css/manage.css}" type="text/css">
+      <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+    <title th:text="'语问卷 · 分析 · ' + ${data['qname']}"></title>
+    <style>
+        .static-icon{
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+    </style>
+    <script th:src="@{/js/echarts.min.js}"></script>
+  </head>
+  <body style="background-color: #e9ecef;">
+  <div class="nav-bg">
+      <div class="container">
+          <nav class="navbar navbar-expand-md navbar-light">
+              <a class="navbar-brand erase-padding " href="javascript:history.go(-1)">
+                  <img class="brand-icon" th:src="@{/images/back.png}" >
+              </a>
+              <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav ml-auto">
+                      <li class="nav-item">
+                          <a class="nav-link erase-padding" th:href="@{/logout}"><img class="brand-icon" th:src="@{/images/exit.png}"></a>
+                      </li>
+                  </ul>
+
+              </div>
+
+          </nav>
+      </div>
+  </div>
+              
+           <div class="container mt-md-5">
+               <div class="row justify-content-center">
+                   <div class="col-md-10 bg-white" style="border-radius: 5px;">
+                        <div class="jumbotron jumbotron-fluid text-center bg-white">
+                            <h3 class="display-6" th:text="${data['qname']}"></h3>
+                            <p class="lead" th:text="'问卷ID:  ' + ${data['qid']}"></p>
+                            <hr class="my-3">
+                            <div class="row">
+                                <div class="col-md-12 text-left" id="analyze-area">
+
+                                    <div th:each="d, status: ${data['questions']}">
+                                    <!-- 分析的区域 -->
+                                    <div th:if="${d['type']} ne 'text'" class="row justify-content-center mb-4 question-item qi">
+                                            <div class="col-md-10 question-item-area">
+                                                <div class="row no-gutters h4 question-item-header">
+                                                    <div class="col-md-1 title-index">&nbsp;<span class="q-index" th:text="${status.count}"></span>.</div>
+                                                    <div class="col-md-10 title-txt">
+                                                        <div class="container ques-title" style="padding-left: 0; padding-right:0;" th:text="${d['qtitle']}">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row question-item-body pl-4">
+                                                    <div class="col-md-11 ">
+                                                        <div class="row justify-content-end mb-md-2">
+                                                            <!-- <div class="col-md-12"> -->
+                                                                    <div class="btn-group" role="group">
+                                                                            <button class="btn btn-outline-primary q-pie" type="button" data-toggle="collapse" th:data-target="'#q' + ${status.count}+ '-char-area'" aria-expanded="false" th:aria-controls="'#q' + ${status.count}+ '-char-area'">
+                                                                                   <img th:src="@{/images/pie.png}" class="static-icon">饼状图
+                                                                            </button>
+                                                                            <button class="btn btn-outline-primary q-col" type="button" data-toggle="collapse" th:data-target="'#q' + ${status.count}+ '-char-area'" aria-expanded="false" th:aria-controls="'#q' + ${status.count}+ '-char-area'">
+                                                                                    <img th:src="@{/images/col.png}" class="static-icon"> 柱状图
+                                                                            </button>
+                                                                            <button class="btn btn-outline-primary q-cyc" type="button" data-toggle="collapse" th:data-target="'#q' + ${status.count}+ '-char-area'" aria-expanded="false" th:aria-controls="'#q' + ${status.count}+ '-char-area'">
+                                                                                <img th:src="@{/images/cyclic.png}" class="static-icon"> 环状图
+                                                                            </button>
+                                                                        </div>
+                                                            <!-- </div> -->
+                                                        </div>
+                                                               
+                                                        
+                                                        <div class="collapse" th:id="'q' + ${status.count}+ '-char-area'">
+                                                            <script th:inline="javascript">
+                                                                var data[[${status.count}]] = JSON.parse([[${ d['items'] }]]);
+                                                                var q[[${status.count}]]Pie = {
+                                                                    tooltip : {
+                                                                        trigger: 'item',
+                                                                        formatter: "{a} <br/>{b} : {c} ({d}%)"
+                                                                    },
+                                                                    legend: {
+                                                                        type: 'scroll',
+                                                                        orient: 'vertical',
+                                                                        right: 10,
+                                                                        top: 20,
+                                                                        bottom: 20,
+                                                                        data: data[[${status.count}]],
+                                                                    },
+                                                                    series : [
+                                                                        {
+                                                                            name: '[[${d[\'qtitle\']}]]',
+                                                                            type: 'pie',
+                                                                            radius : '55%',
+                                                                            center: ['40%', '50%'],
+                                                                            data: data[[${status.count}]],
+                                                                            itemStyle: {
+                                                                                emphasis: {
+                                                                                    shadowBlur: 10,
+                                                                                    shadowOffsetX: 0,
+                                                                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    ]
+                                                                };
+
+                                                                function getName[[ ${status.count} ]]() {
+                                                                    var da = data[[${status.count}]];
+                                                                    var d = [];
+                                                                    for (var i = 0 ; i < da.length; i++) {
+                                                                        d[i] = da[i]['name'];
+                                                                    }
+                                                                    return d;
+                                                                }
+
+                                                                function barData[[ ${status.count} ]]() {
+                                                                    var da = data[[${status.count}]];
+                                                                    var sd = [];
+                                                                    for (var i = 0; i < da.length; i++) {
+                                                                        var m = {};
+                                                                        m['name'] = da[i]['name'];
+                                                                        m['type'] = 'bar';
+                                                                        m['data'] = [da[i]['value']];
+                                                                        sd[i] = m;
+                                                                    }
+                                                                    return sd;
+                                                                }
+
+                                                                var q[[${status.count}]]Col =  {
+                                                                    tooltip: {},
+                                                                    legend: {
+                                                                        type: 'scroll',
+                                                                        top:0,
+                                                                        data:getName[[ ${status.count} ]]()
+                                                                    },
+                                                                    xAxis: {
+                                                                        data:[
+                                                                            '[[${d[\'qtitle\']}]]'
+                                                                        ]
+                                                                    },
+                                                                    yAxis: {},
+                                                                    series: barData[[ ${status.count} ]]()
+                                                                };
+
+                                                                var q[[${status.count}]]Cyc = {
+                                                                    tooltip: {
+                                                                        trigger: 'item',
+                                                                        formatter: "{a} <br/>{b}: {c} ({d}%)"
+                                                                    },
+                                                                    legend: {
+                                                                        orient: 'vertical',
+                                                                        x: 'left',
+                                                                        data:getName[[ ${status.count} ]]()
+                                                                    },
+                                                                    series: [
+                                                                        {
+                                                                            name:'[[${d[\'qtitle\']}]]',
+                                                                            type:'pie',
+                                                                            radius: ['50%', '70%'],
+                                                                            avoidLabelOverlap: false,
+                                                                            labelLine: {
+                                                                                normal: {
+                                                                                    show: false
+                                                                                }
+                                                                            },
+                                                                            data:data[[${status.count}]]
+                                                                        }
+                                                                    ]
+                                                                };
+                                                            </script>
+                                                            <div class="card card-body" >
+                                                                <div th:id="'q' + ${status.count}+ '-char'" class="ml-auto mr-auto" style="width: 600px; height: 400px;"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    <!-- 分析的区域 -->
+
+
+                                    <!--第二题-->
+                                    <div  th:if="${d['type']} eq 'text'" class="row justify-content-center mb-4 question-item qi">
+                                        <div class="col-md-10 question-item-area">
+                                            <div class="row no-gutters h4 question-item-header">
+                                                <div class="col-md-1 title-index">&nbsp;<span class="q-index" th:text="${status.count}"></span>.</div>
+                                                <div class="col-md-10 title-txt">
+                                                    <div class="container ques-title" style="padding-left: 0; padding-right:0;" th:text="${d['qtitle']}">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row question-item-body pl-4">
+                                                <div class="col-md-11 ">
+                                                    <div class="row justify-content-end mb-md-2">
+                                                        <!-- <div class="col-md-12"> -->
+                                                        <div class="btn-group" role="group">
+                                                            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" th:data-target="'#q' + ${status.count}+ '-char-area'" aria-expanded="false" th:aria-controls="'#q-' + ${status.count}+ '-char-area'">
+                                                                <img th:src="@{/images/text.png}" class="static-icon">数据
+                                                            </button>
+                                                        </div>
+                                                        <!-- </div> -->
+                                                    </div>
+
+
+                                                    <div class="collapse" th:id="'q' + ${status.count}+ '-char-area'">
+                                                        <div class="card card-body" style="overflow-x: hidden; overflow-y: scroll;">
+                                                            <table class="table table-hover">
+                                                                <tbody>
+
+                                                                <tr th:each="da, s : ${d['items']}" th:if="${!#strings.isEmpty(da)}">
+                                                                    <th scope="row" th:text="${s.count}"></th>
+                                                                    <td style="text-overflow: ellipsis" th:title="${da}" th:text="${da}"></td>
+                                                                </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--第二题-->
+                                </div>
+
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+               </div>
+           </div>
+
+
+        <script th:src="@{/js/jquery-3.3.1.min.js}" ></script>
+        <script th:src="@{/js/popper.min.js}" ></script>
+        <script th:src="@{/js/bootstrap.min.js}" ></script>
+
+    <!--<script>-->
+        <!--var q1Pie = {-->
+        <!--tooltip : {-->
+            <!--trigger: 'item',-->
+            <!--formatter: "{a} <br/>{b} : {c} ({d}%)"-->
+        <!--},-->
+        <!--legend: {-->
+            <!--type: 'scroll',-->
+            <!--orient: 'vertical',-->
+            <!--right: 10,-->
+            <!--top: 20,-->
+            <!--bottom: 20,-->
+            <!--data: [-->
+                    <!--{value:235, name:'视频广告'},-->
+                    <!--{value:274, name:'联盟广告'},-->
+                    <!--{value:310, name:'邮件营销'},-->
+                    <!--{value:335, name:'直接访问'},-->
+                    <!--{value:400, name:'搜索引擎'}-->
+                <!--],-->
+    <!--},-->
+    <!--series : [-->
+        <!--{-->
+            <!--name: '标题3333333',-->
+            <!--type: 'pie',-->
+            <!--radius : '55%',-->
+            <!--center: ['40%', '50%'],-->
+            <!--data: [-->
+                    <!--{value:235, name:'视频广告'},-->
+                    <!--{value:274, name:'联盟广告'},-->
+                    <!--{value:310, name:'邮件营销'},-->
+                    <!--{value:335, name:'直接访问'},-->
+                    <!--{value:400, name:'搜索引擎'}-->
+                <!--],-->
+            <!--itemStyle: {-->
+                <!--emphasis: {-->
+                    <!--shadowBlur: 10,-->
+                    <!--shadowOffsetX: 0,-->
+                    <!--shadowColor: 'rgba(0, 0, 0, 0.5)'-->
+                <!--}-->
+            <!--}-->
+        <!--}-->
+    <!--]-->
+<!--};-->
+
+        <!--var q1Col =  {-->
+            <!--tooltip: {},-->
+            <!--legend: {-->
+                <!--type: 'scroll',-->
+                <!--top:0,-->
+                <!--data:[-->
+                    <!--'视频广告',-->
+                    <!--'联盟广告',-->
+                    <!--'邮件营销',-->
+                    <!--'直接访问',-->
+                    <!--'搜索引擎'-->
+                <!--]-->
+            <!--},-->
+            <!--xAxis: {-->
+                <!--data:[-->
+                    <!--'标题3333333'-->
+                <!--]-->
+            <!--},-->
+            <!--yAxis: {},-->
+            <!--series: [-->
+                <!--{-->
+                <!--name: '视频广告',-->
+                <!--type: 'bar',-->
+                <!--data: [235]-->
+                <!--},-->
+                <!--{-->
+                <!--name: '联盟广告',-->
+                <!--type: 'bar',-->
+                <!--data: [274]-->
+                <!--},-->
+                <!--{-->
+                <!--name: '邮件营销',-->
+                <!--type: 'bar',-->
+                <!--data: [310]-->
+                <!--},-->
+                <!--{-->
+                <!--name: '直接访问',-->
+                <!--type: 'bar',-->
+                <!--data: [335]-->
+                <!--},-->
+                <!--{-->
+                <!--name: '搜索引擎',-->
+                <!--type: 'bar',-->
+                <!--data: [400]-->
+                <!--}-->
+
+            <!--]-->
+        <!--};-->
+
+        <!--var q1Cyc = {-->
+                <!--tooltip: {-->
+                    <!--trigger: 'item',-->
+                    <!--formatter: "{a} <br/>{b}: {c} ({d}%)"-->
+                <!--},-->
+                <!--legend: {-->
+                    <!--orient: 'vertical',-->
+                    <!--x: 'left',-->
+                    <!--data:['直接访问','邮件营销','联盟广告','视频广告','搜索引擎']-->
+                <!--},-->
+                <!--series: [-->
+                    <!--{-->
+                        <!--name:'访问来源',-->
+                        <!--type:'pie',-->
+                        <!--radius: ['50%', '70%'],-->
+                        <!--avoidLabelOverlap: false,-->
+                        <!--labelLine: {-->
+                            <!--normal: {-->
+                                <!--show: false-->
+                            <!--}-->
+                        <!--},-->
+                        <!--data:[-->
+                            <!--{value:335, name:'直接访问'},-->
+                            <!--{value:310, name:'邮件营销'},-->
+                            <!--{value:234, name:'联盟广告'},-->
+                            <!--{value:135, name:'视频广告'},-->
+                            <!--{value:1548, name:'搜索引擎'}-->
+                        <!--]-->
+                    <!--}-->
+                <!--]-->
+            <!--};-->
+        <!--</script>-->
+
+
+    <script>
+
+
+        $('.question-item-body').on('click','.q-pie', function(e){
+            // var ele = $(e.target);
+            var index = findQiIndex(e.target);
+            renderChar(index,'Pie');
+        });
+
+
+        function renderChar(index, charType) {
+            $('#q'+index+'-char-area').on('show.bs.collapse',function() {
+                var chartName = 'q'+index+'-char';
+                var ele = document.getElementById(chartName);
+                var initEle = $(ele).removeAttr('_echarts_instance_');
+                var char = echarts.init(ele,'light');
+                var option = eval('q'+index+charType);
+                char.setOption(option);
+            });
+        }
+        $('.question-item-body').on('click', '.q-col', function(e){
+            var index = findQiIndex(e.target);
+            renderChar(index,'Col');
+        });
+        $('.question-item-body').on('click', '.q-cyc', function(e){
+            // var ele = $(e.target);
+            var index = findQiIndex(e.target);
+            renderChar(index, 'Cyc');
+        });
+
+        function findQiIndex(t){
+            var qiIndex = $(t).parents('.qi').find('.q-index').text().trim();
+            return qiIndex;
+        }
+        // 使用刚指定的配置项和数据显示图表。
+        // q1Char.setOption(option);
+    </script>     
+    </body>
+</html>

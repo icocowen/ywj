@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<questionnaire_models xmlns="http://www.ywj.cn/questionnaire-model" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ywj.cn/questionnaire-model questionnaire_models.xsd">
+	<questionnaire_model  questionnaire_id="21331">
+		<question_num>3</question_num>
+		<questions>
+			<question type="radio" value="你喜欢什么口味的粽子？" use="true">
+				<item option="a" >甜味粽</item>
+				<item option="b" >咸味粽</item>
+				<item option="c" >辣味粽</item>
+			</question>
+			<question type="checkbox" value="你吃过什么味的粽子？" use="true">
+				<item option="a" >甜味粽</item>
+				<item option="b" >咸味粽</item>
+				<item option="c" >辣味粽</item>
+			</question>
+			<question type="text" value="你吃粽子的感受是什么？" use="false" length="20"/>
+		</questions>
+	</questionnaire_model>
+	
+</questionnaire_models>

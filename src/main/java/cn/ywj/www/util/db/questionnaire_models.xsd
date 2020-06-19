@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ywj.cn/questionnaire-model" targetNamespace="http://www.ywj.cn/questionnaire-model" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="questionnaire_models" type="questionnaire_models_type"/>
+	<xs:element name="questionnaire_model" type="questionnaire_model_type"/>
+	<xs:element name="question_num" type="xs:integer"/>
+	<xs:element name="questions" type="questions_type"/>
+	<xs:element name="question" type="question_type" />
+	
+	<xs:element name="item">
+		<xs:complexType mixed="true" >
+			<xs:attribute name="option" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:complexType name="question_type">
+		<xs:sequence maxOccurs="unbounded" minOccurs="0">
+			<xs:element ref="item"/>
+		</xs:sequence>
+		<xs:attribute name="type">
+			<xs:simpleType>
+				<xs:restriction base="xs:string">
+					<xs:enumeration value="radio"/>
+					<xs:enumeration value="checkbox"/>
+					<xs:enumeration value="text"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="value" type="xs:string"/>
+		<xs:attribute name="use" type="xs:boolean" default="true"/>
+		<xs:attribute name="length" type="xs:integer"/>
+	</xs:complexType>
+	
+	<xs:complexType name="questionnaire_model_type">
+		<xs:sequence>
+			<xs:element ref="question_num"/>
+			<xs:element ref="questions"/>
+		</xs:sequence>
+		<xs:attribute name="questionnaire_id" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="questions_type">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element ref="question"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="questionnaire_models_type">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element ref="questionnaire_model"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ch-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+      <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"  type="text/css">
+      <link rel="stylesheet" th:href="@{/css/manage.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/design.css}" type="text/css">
+      <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+    <title th:text="${fn !=null and fn eq 'edit'} ? '语问卷 · 问卷编辑' : '语问卷 · 问卷设计'"></title>
+  </head>
+  <body style="background-color: #e9ecef;">
+    <div class="nav-bg">
+      <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light nav-padding" >
+          <button class="navbar-toggler" data-target="#my-nav" data-toggle="collapse" aria-controls="my-nav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div id="my-nav" class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+              <div class="btn-group" role="group">
+                  <li class="nav-item  btn btn-light btn-sm">
+                      <a class="nav-link text-drak" href="#"><img th:src="@{/images/preview.png}" class="preview-icon">预览<span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item  btn btn-primary btn-sm">
+                      <a class="nav-link text-white disabled" id="submit-design" href="javascript:void(0);" tabindex="-1" aria-disabled="true" th:text="${fn != null and fn ne 'edit'} ? '完成设计' : '完成编辑'">完成编辑</a>
+                    </li>
+              </div>
+            </ul>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+
+    <div class="container mt-2">
+      <div class="row no-gutters">
+        <div class="col-md-3"  th:if="${fn != null and fn ne 'edit'}">
+          <div class="col-md-11">
+              <div id="accordion">
+                  <div class="card">
+                    <div class="card-header" id="headingOne">
+                      <h5 class="mb-0">
+                        <button class="btn btn-link txt-black txt-black-earse-underline" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                          选择题
+                        </button>
+                      </h5>
+                    </div>
+                
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+                     
+                        <table class="table">
+                            <tbody>
+                              <tr>
+                                <td class="item radio-icon item-icon" data-target="#radio-modal" data-toggle="modal">单选题</td>
+                                <td class="item item-icon checkbox-icon" data-target="#checkbox-modal" data-toggle="modal">多选题</td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+
+                    </div>
+                  </div>
+
+
+                  <div class="card">
+                      <div class="card-header" id="heading-fill">
+                        <h5 class="mb-0">
+                          <button class="btn btn-link txt-black txt-black-earse-underline" data-toggle="collapse" data-target="#collapse-fill" aria-expanded="true" aria-controls="collapse-fill">
+                            填空题
+                          </button>
+                        </h5>
+                      </div>
+                  
+                      <div id="collapse-fill" class="collapse show" aria-labelledby="heading-fill" data-parent="#accordion">
+                          <table class="table">
+                              <tbody>
+                                <tr>
+                                  <td class="item fill-text-item fill-text-icon" data-target="#text-modal" data-toggle="modal">单项填空</td>
+                                  
+                                </tr>
+                              </tbody>
+                            </table>
+                      </div>
+                    </div>
+
+
+
+                </div>
+          </div>
+        </div>
+        <div class="col-md-9 " >
+          <div class="row" >
+            <div class="col-md-12 pb-5" style="background-color: white;  ">
+
+            <div class="row justify-content-center" id="question-area-title" >
+              <div class="col-md-8">
+                <div class="jumbotron text-center" style="background-color: white; padding-bottom: 10px;">
+                    <h3 class="display-6 " id="questionnaire-title">
+                      <div class="container" id="title-warp-question" style="padding-left: 0; padding-right:0;" th:text="${qName}">
+
+                        </div>
+                      </h3>
+                    <hr class="my-1">
+                  </div>
+              </div>
+            </div>
+              <!-- item -->
+          <div class="row">
+              <div class="col-md-12" id="question-area">
+
+                  <div th:if="${data}">
+                      <div  th:each="model, status : ${data['qm'].getQuestions()}" >
+                          <input type="hidden" th:value="${data['qm'].getQuestionnaireid()}" id="q-id">
+
+                          <div th:switch="${model.getType().toString()}">
+
+                              <div th:case="'radio'" class="row justify-content-center mb-4 question-item qi">
+                                  <div class="col-md-10 question-item-area">
+                                      <div class="row no-gutters h4 question-item-header">
+                                          <div class="col-md-1">&nbsp;<span class="q-index" th:text="${status.count}"></span>.</div>
+                                          <div class="col-md-10 ">
+                                              <div class="container ques-title" style="padding-left: 0; padding-right:0;" th:text="${model.getValue()}"> </div>
+                                          </div>
+                                          <div class="col-md-1">
+
+                                        </div>
+                                      </div>
+                                      <div class="row question-item-body pl-4">
+                                          <div class="col-md-10 ">
+                                              <div class="row item-option" th:each="item : ${model.getItems()}">
+                                                  <div class="col-md-12">
+                                                      <div class="custom-control custom-radio">
+                                                          <input type="radio" class="custom-control-input">
+                                                          <label class="custom-control-label option-label" style="width: 90%; height: 100%;">
+                                                              <span class="option" th:text="${item.getValue()}"></span>
+                                                          </label>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+
+                                  <div th:case="'checkbox'" class="row justify-content-center mb-4 question-item qi">
+                                      <div class="col-md-10 question-item-area">
+                                          <div class="row no-gutters h4 question-item-header">
+                                              <div class="col-md-1">&nbsp;<span class="q-index" th:text="${status.count}"></span>.</div>
+                                              <div class="col-md-10 ">
+                                                  <div class="container ques-title" style="padding-left: 0; padding-right:0;"  th:text="${model.getValue()}"></div>
+                                              </div>
+                                              <div class="col-md-1"></div>
+                                          </div>
+                                          <div class="row question-item-body pl-4">
+                                              <div class="col-md-10 ">
+                                                  <div class="row item-option" th:each="item : ${model.getItems()}">
+                                                      <div class="col-md-12">
+                                                          <div class="custom-control custom-checkbox">
+                                                              <input type="checkbox" class="custom-control-input">
+                                                              <label class="custom-control-label option-label" style="width: 90%; height: 100%;">
+                                                                  <span class="option" th:text="${item.getValue()}"></span>
+                                                              </label>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+
+                                  <div th:case="'text'" class="row justify-content-center mb-4 question-item qi">
+                                      <div class="col-md-10 question-item-area">
+                                          <div class="row no-gutters h4 question-item-header">
+                                              <div class="col-md-1">&nbsp;<span class="q-index"  th:text="${status.count}"></span>.</div>
+                                              <div class="col-md-10 ">
+                                                  <div class="container ques-title" style="padding-left: 0; padding-right:0;" th:text="${model.getValue()}"></div>
+                                              </div>
+                                              <div class="col-md-1"></div>
+                                          </div>
+                                          <div class="row question-item-body pl-4">
+                                              <div class="col-md-10 ">
+                                                  <textarea class="form-control" rows="1" disabled=""></textarea>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </div>
+
+
+
+                    </div>
+                  </div>
+              </div>
+
+
+          </div>
+
+            
+
+              <!-- item -->
+
+
+
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" id="questionsNum" value="0">
+    <input type="hidden" id="number" value="0">
+    <input type="hidden" id="qi" value="0">
+
+    <div  id="radio-modal" class="modal fade" aria-hidden='true' data-backdrop='static' tabindex="-1" role="dialog" >
+      <div class="modal-dialog " role="document"> 
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">单选题</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+          <div class="modal-body radio">
+            <div class="row justify-content-center">
+              <div class="col-md-10">
+                <div class="row no-gutters h4">
+                  <div class="col-md-2">标题:</div>
+                  <div class="col-md-10 radio-title">
+                      <div class="container add-question-title" id="title-warp" style="padding-left: 0; padding-right:0;">
+                        标题
+                        </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-10 item-area" id="option-radion-area">
+                  <div class="row add-btn" id="addbtn-area" >
+                      <div class="col-md-12" th:if="${fn !=null and fn ne 'edit'}">
+                          <button type="button" class="btn btn-outline-primary btn-block  btn-sm" id="addbtn"><img th:src="@{/images/additem.png}" style="width:26px; height:26px;"> 添加选项</button>
+                      </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary add-question" >确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div  id="checkbox-modal" class="modal fade"  data-backdrop='static' tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog " role="document"> 
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">多选题</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+            <div class="modal-body checkbox">
+              <div class="row justify-content-center">
+                <div class="col-md-10">
+                  <div class="row no-gutters h4">
+                    <div class="col-md-2">标题:</div>
+                    <div class="col-md-10 checkbox-title">
+                        <div class="container add-question-title" id="title-warp-checkbox" style="padding-left: 0; padding-right:0;">
+                          标题
+                          </div>
+                    </div>
+                  </div>
+                  
+                </div>
+                <div class="col-md-10 item-area" id="option-checkbox-area">
+
+                    <div class="row " id="addbtn-area-checkbox"  >
+                        <div class="col-md-12" th:if="${fn !=null and fn ne 'edit'}">
+                            <button type="button" class="btn btn-outline-primary btn-block  btn-sm" id="addbtn-checkbox"><img th:src="@{/images/additem.png}" style="width:26px; height:26px;"> 添加选项</button>
+                        </div>
+                      </div>
+  
+  
+  
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary add-question">确定</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div  id="text-modal" class="modal fade"  data-backdrop='static' tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog " role="document"> 
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">单项填空</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+              <div class="modal-body text">
+                <div class="row justify-content-center">
+                  <div class="col-md-10">
+                    <div class="row no-gutters h4">
+                      <div class="col-md-2">标题:</div>
+                      <div class="col-md-10 text-title">
+                          <div class="container add-question-title" id="title-warp-text" style="padding-left: 0; padding-right:0;" >
+                                标题
+                            </div>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <div class="col-md-10 " id="option-text-area">
+                      <textarea class="form-control"  rows="1" disabled></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary add-question">确定</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+    <script th:src="@{/js/jquery-3.3.1.min.js}" ></script>
+    <script th:src="@{/js/popper.min.js}" ></script>
+    <script th:src="@{/js/bootstrap.min.js}" ></script>
+    <script th:if="${fn !=null and fn eq 'design'}" th:src="@{/js/design.js}"></script>
+    <script th:if="${fn !=null and fn eq 'edit'}" th:src="@{/js/update.js}"></script>
+  </body>
+</html>

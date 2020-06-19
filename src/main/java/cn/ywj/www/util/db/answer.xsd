@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://www.ywj.cn/answer" targetNamespace="http://www.ywj.cn/answer" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="answers" type="answers_type" />
+	<xs:element name="answer" type="answer_type"/>
+	
+	<xs:complexType name="answers_type" >
+		<xs:sequence maxOccurs="unbounded" minOccurs="0">
+			<xs:element ref="answer"/>
+		</xs:sequence>
+		<xs:attribute name="questionnaire_id" type="xs:string"/>
+		<xs:attribute name="answer_num" type="xs:integer"/>
+	</xs:complexType>
+	
+	<xs:complexType name="answer_type" mixed="true">
+		<xs:attribute name="source">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:enumeration value="link"/>
+				<xs:enumeration value="qrCode"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:attribute>
+	</xs:complexType>
+	
+</xs:schema>

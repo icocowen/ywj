@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ch-CN" xmlns:th="http://www.thymeleaf.org">
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <link rel="stylesheet" th:href="@{css/bootstrap.min.css}"  type="text/css">
+      <link rel="stylesheet" th:href="@{css/manage.css}" type="text/css">
+      <link rel="icon" th:href="@{/images/brand-ico.ico}" type="image/x-icon" >
+    <title>语问卷 · 管理界面</title>
+  </head>
+  <body style="background-color:#e9ecef;">
+    <div class="nav-bg">
+      <div class="container">
+        <nav class="navbar navbar-expand-md navbar-light">
+          <a class="navbar-brand erase-padding " href="#">
+            <img class="brand-icon" th:src="@{images/brand-icon.png}">
+          </a>
+          <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+        
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item active">
+                <a class="nav-link erase-padding" th:href="@{/user/}+${uid}"><img class="brand-icon" th:src="@{images/user.png}"></a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link erase-padding" >
+                  <img class="brand-icon" th:src="@{images/msg.png}"><span class="badge  msg-num">9</span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link erase-padding" th:href="@{/logout}"><img class="brand-icon" th:src="@{images/exit.png}"></a>
+              </li>
+            </ul>
+           
+          </div>
+          
+        </nav>
+      </div>
+    </div>
+
+    <div class="container pt-md-5" >
+      <div class="row">
+          <div class="col-md-1 order-md-2">
+              <div class="btn-group-vertical ">
+                  <a class="btn btn-light text-left" th:href="@{addquestionnire}" role="button">
+                    <img th:src="@{images/add.png}" class="tools-icon"> 创建问卷
+                  </a>
+                  <button type="button" class="btn btn-light text-left" data-toggle="modal" data-target="#search-modal">
+                    <img th:src="@{images/search.png}" class="tools-icon"> 搜索
+                  </button>
+                  <a class="btn btn-light text-left" th:href="@{/recycle}" role="button">
+                    <img th:src="@{images/recycle.png}" class="tools-icon" style="margin-left: 5px;width: 26px; height:26px;"> 回收站
+                  </a>
+                 
+              </div>
+          </div>
+
+
+
+        <div class="col-md-11 order-md-1" th:classappend="${qns.size()  != 0} ? '': 'no-questionnaire'">
+
+                <div th:if="${qns.size() == 0}">还没有发布问卷呢！☺</div>
+                <div th:each="brief : ${qns}" class="card card-bottom card-shadow question-brief">
+                    <div class="card-header" style="display: flex">
+                        <div class="questionnaire-item" th:switch="*{brief['status']}">
+                            <span class="badge badge-success status-item" th:case="发布中">发布中</span>
+                            <span class="badge badge-warning status-item" th:case="暂停">暂停</span>
+                            <span class="badge badge-secondary status-item" th:case="草稿">草稿</span>
+                            <span class="question-name" th:text="*{brief['qnTitle']}" ></span>
+                            ID:<span th:text="*{brief['qnId']}" class="q-id"></span>
+                        </div>
+                        <div class="ml-auto questionnaire-item">
+                            答卷:<span th:text="*{brief['ansNum']}"></span>
+                            <span th:text="*{brief['createDate']}"></span>
+                        </div>
+                      </div>
+                    <div class="card-body" style="display: flex">
+                        <div style="display: flex;">
+                          
+                            <a th:href="@{/edit}+'/'+${brief['qnId']}" class="btn btn-outline-primary"><img th:src="@{images/editFile.png}" class="item-tools-icon"> 编辑问卷</a>
+                            <div class="dropdown">
+                                <button class="btn btn-outline-primary dropdown-toggle" type="button" id="analyze-statistic" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <img th:src="@{images/analyze-dw.png}" class="item-tools-icon"> 分析
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="analyze-statistic">
+                                  <a class="dropdown-item" th:href="@{/analyze} +'/'+${brief['qnId']} "><img th:src="@{images/statistics.png}" class="item-tools-icon"> 统计</a>
+                                </div>
+                              </div>
+                              <div class="dropdown">
+                                  <button class="btn btn-outline-primary dropdown-toggle" type="button" id="send-questionnaire" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                      <img th:src="@{images/send.png}" class="item-tools-icon"> 发送问卷
+                                  </button>
+                                  <div class="dropdown-menu" aria-labelledby="send-questionnaire">
+                                    <a class="dropdown-item link-send" href="javascript:void(0);" data-target="#send-link-modal" data-toggle="modal">
+                                      <img th:src="@{images/link.png}" class="item-tools-icon"> 连接发送</a>
+                                    <a class="dropdown-item  qrcode-send" href="javascript:void(0);" data-toggle="modal" data-target="#qrcode-modal" >
+                                        <img th:src="@{images/qrcode.png}" class="item-tools-icon" > 二维码发送</a>
+                                  </div>
+                                </div>
+                        </div>
+
+                        <div class="ml-auto" th:switch="*{brief['status']}">
+                            <a href="javascript:void(0);" class="btn btn-outline-primary ev" th:case="发布中">
+                                <img  th:src="@{images/pause.png}" class="item-tools-icon" >
+                                <span class="new-status">暂停</span>
+                            </a>
+                            <a href="javascript:void(0);" class="btn btn-outline-primary ev" th:case="*">
+                                <img  th:src="@{images/publish.png}" class="item-tools-icon" >
+                                <span class="new-status">发布</span>
+                            </a>
+
+                            <button type="button" class="btn btn-outline-primary de-q"  data-toggle="modal" data-target="#delete-modal">
+                              <img th:src="@{images/recycle-tool.png}" class="item-tools-icon"> 删除问卷</button>
+                        </div>
+                      </div>
+                </div>
+    
+
+
+ 
+
+           
+
+        </div>
+     
+      </div>
+    </div>
+
+
+    <div id="search-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            
+              <div class="modal-body">
+                <ul class="nav nav-tabs justify-content-center" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="by-questionnaire-name" data-toggle="tab" href="#questionnaire-name" role="tab" aria-controls="home" aria-selected="true">问卷名搜索</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="by-questionnaire-status" data-toggle="tab" href="#questionnaire-status" role="tab" aria-controls="profile" aria-selected="false">问卷状态搜索</a>
+                    </li>
+                  </ul>
+                  <div class="tab-content" id="myTabContent" style="margin-top: 20px;">
+                    <div class="tab-pane fade show active" id="questionnaire-name" role="tabpanel" aria-labelledby="by-questionnaire-name">
+                        <form th:action="@{manage}" method="get" >
+                        <div class="input-group mb-3">
+                                <input type="text" name="title" class="form-control" placeholder="按问卷名进行搜索" aria-label="按问卷名进行搜索" aria-describedby="basic-addon2">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">搜索</button>
+                                </div>
+                          </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="questionnaire-status" role="tabpanel" aria-labelledby="by-questionnaire-status">
+                        <form th:action="@{manage}" method="get" id="search-status-form">
+                            <select id="inputState" class="form-control" name="status"  >
+                                <option >问卷状态</option>
+                                <option class="seach-status"  th:each="e : ${T(cn.ywj.www.util.Status).values()}" th:if="${e.msg ne '回收'}" th:value="${e}" th:text="${e.msg}"></option>
+                            </select>
+                        </form>
+                    </div>
+                  </div>
+              </div>
+             
+        </div>
+      </div>
+    </div>
+
+    <div id="delete-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            是否删除该问卷
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-danger " id="confirm-d">是</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">否</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="qrcode-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-sm" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              二维码发送
+            </div>
+            <div class="modal-body" style="display: flex">
+                <div id="qrcode" style="margin: 0 auto;"></div>
+            </div>
+            <div class="modal-footer">
+                <a id="downloadLink"></a>
+                <button type="button" class="btn btn-light" onclick="downloadClick()"><img th:src="@{images/download.png}" class="item-tools-icon"> 下载</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="send-link-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              连接发送 &nbsp;&nbsp;<span class="copy-hint text-success"></span>
+            </div>
+            <div class="modal-body" style="display: flex">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control share-link" placeholder="分享的链接" aria-label="分享的链接" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-outline-success copy-link" type="button">复制</button>
+                    </div>
+                  </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script th:src="@{js/jquery-3.3.1.min.js}" ></script>
+    <script th:src="@{js/popper.min.js}" ></script>
+    <script th:src="@{js/bootstrap.min.js}" ></script>
+    <script th:src="@{js/qrcode.min.js}"></script>
+    <script th:src="@{js/manage.js}"></script>
+    <script>
+
+        var qid = '';
+        var elep = null;
+
+        $(function() {
+            if (window.history && window.history.pushState) {
+                $(window).on('popstate', function () {
+                    window.history.pushState('forward', null, '');
+                    window.history.forward(1);
+                });
+            }
+            window.history.pushState('forward', null, ''); //在IE中必须得有这两行
+            window.history.forward(1);
+        });
+
+
+        $('.de-q').on('click', function (e) {
+            var ele = $(e.target);
+             elep = ele.parents('.question-brief');
+            qid = elep .find('.q-id').text().trim();
+        });
+
+        $('#confirm-d').on('click', function () {
+            dq("POST", "manage", {_method: "delete", "d":qid}, "#delete-modal", function () {
+                elep.remove();
+            });
+        });
+
+
+        $('.ev').on('click', function (e) {
+            var ev = '';
+            var ele = $(e.target).parents('.question-brief');
+            var st = ele.find('.status-item').text().trim();
+            if (st === "发布中")  {
+                ev = 'pause';
+                changeIcon(e.target, 'publish', '暂停', 'badge-warning', '发布');
+
+            }else {
+                ev = 'publish';
+                changeIcon(e.target, 'pause', '发布中','badge-success', '暂停');
+
+            }
+            var targetId = ele.find('.q-id').text().trim();
+
+            dq("POST", "manage", {_method: "put", "ev":ev, "qid": targetId}, null, null);
+
+        });
+
+        $('#inputState').on('change', function (e) {
+            $('#search-status-form').submit();
+        });
+
+
+        // {
+        //     _method:"delete",
+        //         "d":qid
+        // }
+
+        function dq(means , url, data, modal, fn) {
+            $.ajax({
+                type: means,
+                url: url,
+                data:  data ,
+                success: function(){
+                    if (fn != null) {
+                        fn();
+                    }
+                },
+                error: function () {
+
+                }
+            });
+            if (modal != null)
+                $(modal).modal('hide');
+        };
+
+
+      var activeQuestionnaireName = '';
+        var shareLink = "";
+
+
+
+
+
+      var qrcode = new QRCode(document.getElementById("qrcode"), {
+          text: shareLink,
+          width: 200, //生成的二维码的宽度
+          height: 200, //生成的二维码的高度
+          colorDark : "#1fa9e8", // 生成的二维码的深色部分
+          colorLight : "#ffffff", //生成二维码的浅色部分
+          correctLevel : QRCode.CorrectLevel.H
+      });
+
+
+      //jquery
+      function downloadClick () {
+        // 获取base64的图片节点
+        var img = $('#qrcode img')[0];
+        // 构建画布
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        // 构造url
+        url = canvas.toDataURL('image/png');
+        // 构造a标签并模拟点击
+        var downloadLink = $('#downloadLink').attr("href", url).attr("download", activeQuestionnaireName + "二维码分享.png");
+        downloadLink[0].click();
+      }
+
+      $(".qrcode-send").on("click", function(e){
+        getShareLink(e.target);
+        activeQuestionnaireName = $(e.target).parents(".card").find(".question-name").text();
+          qrcode.clear(); // 清除代码
+          qrcode.makeCode(shareLink); // 生成另外一个二维码
+
+      });
+
+      $(".link-send").on("click", function(e){
+        //获取分享的链接
+        $('.copy-hint').text('');
+          getShareLink(e.target);
+        $('.share-link').val(shareLink);
+      });
+
+      function getShareLink(t) {
+           var qid = $(t).parents('.question-brief').find('.q-id').text().trim();
+          shareLink = window.location.protocol + '//' +window.location.host + '/questionnaire/'+qid;
+      }
+
+      $('.copy-link').on('click', function () {
+        $(".share-link").select();
+        document.execCommand('copy');
+        $('.copy-hint').text('复制成功');
+      });
+
+
+    </script>
+
+
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" targetNamespace="http://www.ywj.cn/users" xmlns="http://www.ywj.cn/users">
+	<xs:element name="users" type="users_type"/>
+	<xs:element name="user" type="user_type"/>
+	<xs:element name="email">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:pattern value=".*@{1}.*"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="password">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:maxLength value="100"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="nickname" type="xs:string"/>
+	<xs:element name="motto" type="xs:string"/>
+	<xs:element name="phone_num">
+		<xs:simpleType>
+			<xs:restriction base="xs:string">
+				<xs:pattern value="[1-9]{1}[0-9]{10}"/>
+			</xs:restriction>
+		</xs:simpleType>
+	</xs:element>
+	
+	<xs:element name="avatar" type="xs:string"/>
+	<xs:element name="register_date" type="xs:string"/>
+	<xs:element name="last_login_date" type="xs:string"/>
+
+	<xs:complexType name="users_type">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element ref="user"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="user_type" >
+		<xs:all maxOccurs="1" minOccurs="1">
+			<xs:element ref="email" />
+			<xs:element ref="password" />
+			<xs:element ref="nickname" />
+			<xs:element ref="motto" />
+			<xs:element ref="phone_num" />
+			<xs:element ref="avatar" />
+			<xs:element ref="register_date" />
+			<xs:element ref="last_login_date" />
+		</xs:all>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+		<xs:attribute name="type" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:schema>

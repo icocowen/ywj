@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<users  xmlns="http://www.ywj.cn/users" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ywj.cn/users users.xsd">
+	<user id="2003" type="2">   <!--type 1 为会员用户，2为普通用户 -->
+		<email>1558165507@qq.com</email>
+		<password>$2a$10$YUthO3FOocQFxBgMMke2ROV2MKqAJwHEb8VeVhgcy4oZkx5S/zTHm</password> <!--123456 -->
+		<nickname>iwen</nickname>
+		<motto>今日事几日闭</motto>
+		<phone_num>15119306877</phone_num>
+		<avatar>/images/avatar.jpg</avatar>
+		<register_date>1560047957</register_date>
+		<last_login_date>1560047957</last_login_date>
+	</user>
+</users>
