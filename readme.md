@@ -3,33 +3,41 @@
 </p>
 
 ### 介绍 
+支持问卷的制作，修改，发布，删除，恢复，问卷结果分析。
 
 技术栈：
 1. Spring MVC
 2. Spring Security
 3. Thymeleaf
-4. XML 存储问卷数组
+4. XML 存储问卷数组（起数据库的作用）
 
 ### 界面展示 
 
-* 首页 🐱‍🐉
-![首页](https://github.com/icocowen/ywj/doc/img/%E9%A6%96%E9%A1%B5.png)
+* 登录 🎈✨
+![登录](https://github.com/icocowen/ywj/blob/master/doc/img/%E7%99%BB%E5%BD%95.png?raw=true)
 
-* 登录页 🎗
-![登录页](https://github.com/icocowen/dms-vue/blob/master/doc/img/%E7%99%BB%E5%BD%95%E9%A1%B5.png)
+* 注册 🧨🧨
+![注册](https://github.com/icocowen/ywj/blob/master/doc/img/%E6%B3%A8%E5%86%8C.png?raw=true)
 
-* 公示板 🎃
-![公示板](https://github.com/icocowen/dms-vue/blob/master/doc/img/%E5%85%AC%E7%A4%BA%E6%9D%BF.png)
+* 主界面 🎏
+![主界面](https://github.com/icocowen/ywj/blob/master/doc/img/%E4%B8%BB%E7%95%8C%E9%9D%A2%EF%BC%8C%E7%AE%A1%E7%90%86%E9%97%AE%E5%8D%B7.png?raw=true)
 
-* 个人信息页 🎇
-![个人信息页](https://github.com/icocowen/dms-vue/blob/master/doc/img/%E4%B8%AA%E4%BA%BA%E4%BF%A1%E6%81%AF%E9%A1%B5.jpg)
+* 创建问卷 🧤
+![创建问卷](https://github.com/icocowen/ywj/blob/master/doc/img/%E5%88%9B%E5%BB%BA%E9%97%AE%E5%8D%B7.png?raw=true)
 
-* 统计报表页 🧨
-![统计报表页](https://github.com/icocowen/dms-vue/blob/master/doc/img/%E7%BB%9F%E8%AE%A1%E6%8A%A5%E8%A1%A8%E9%A1%B5.png)
+* 添加题目 🧵🧵
+![添加题目](https://github.com/icocowen/ywj/blob/master/doc/img/%E4%B8%BB%E7%95%8C%E9%9D%A2%EF%BC%8C%E7%AE%A1%E7%90%86%E9%97%AE%E5%8D%B7.png?raw=true)
 
-* 还有更多... 这就不截图了 🧣
+* 创建成功 
+![创建成功](https://github.com/icocowen/ywj/blob/master/doc/img/%E5%88%9B%E5%BB%BA%E6%88%90%E5%8A%9F.png?raw=true)
+
+* 问卷分析 
+![问卷分析](https://github.com/icocowen/ywj/blob/master/doc/img/%E9%97%AE%E5%8D%B7%E5%88%86%E6%9E%90.png?raw=true)
+
+
 ### 项目安装
 
-还接Maven解析依赖，使用tomcat运行即可
+直接Maven解析依赖，使用tomcat运行即可
+可能还需要设置一下，JDK
 
 #### 如果喜欢请点个star 😁✨
